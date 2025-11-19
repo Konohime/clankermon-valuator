@@ -34,7 +34,7 @@ app.post('/api/evaluate', async (req, res) => {
 
     // Appel à l'API Dune
     const duneResponse = await axios.post(
-      'https://api.dune.com/api/v1/query/5733367/execute',
+      'https://api.dune.com/api/v1/query/6223688/execute',
       {
         query_parameters: {
           level: level,
