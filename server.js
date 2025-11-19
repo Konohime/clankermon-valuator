@@ -80,6 +80,8 @@ app.post('/api/evaluate', async (req, res) => {
     if (!results) {
       return res.status(408).json({ error: 'Query timeout. Please try again.' });
     }
+    // DEBUG: Afficher les résultats bruts
+    console.log('Raw results from Dune:', JSON.stringify(results, null, 2));
 
     // Formater les résultats
     const formattedResults = {
