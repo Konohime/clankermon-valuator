@@ -337,12 +337,12 @@
           const finalVal = data.valuations.find(v => v.category === '_Final');
 
           // Si pas de données pour le level, afficher "N/A"
-          const levelUSD = levelVal?.usd_valuation || 'N/A';
-          const levelETH = levelVal?.eth_valuation || 'N/A';
-          const typeUSD = typeVal?.usd_valuation || 'N/A';
-          const typeETH = typeVal?.eth_valuation || 'N/A';
-          const finalUSD = finalVal?.usd_valuation || 'N/A';
-          const finalETH = finalVal?.eth_valuation || 'N/A';
+          const levelUSD = levelVal?.USD_valuation || 'N/A';
+          const levelETH = levelVal?.ETH_valuation || 'N/A';
+          const typeUSD = typeVal?.USD_valuation || 'N/A';
+          const typeETH = typeVal?.ETH_valuation || 'N/A';
+          const finalUSD = finalVal?.USD_valuation || 'N/A';
+          const finalETH = finalVal?.ETH_valuation || 'N/A';
 
           document.getElementById('levelValuation').innerHTML = 
             levelUSD === 'N/A' 
