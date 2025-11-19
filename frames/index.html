@@ -3,50 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clankermon Evaluator</title>
-  
-  <!-- Farcaster Frame Meta Tags -->
-  <meta property="fc:frame" content="vNext" />
-  <meta property="fc:frame:image" content="clankermon-valuator-production.up.railway.app/images/clankermon-start.png" />
-  <meta property="fc:frame:button:1" content="Evaluate Clankermon" />
-  <meta property="fc:frame:button:1:action" content="post" />
-  <meta property="fc:frame:post_url" content="clankermon-valuator-production.up.railway.app/api/frame/start" />
+  <title>Clankermon Valuator</title>
   
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-image: url('https://ibb.co/HTChs6Bj');
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+    }
+
     .container {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
       backdrop-filter: blur(10px);
     }
+
     h1 {
+      color: #667eea;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+      font-size: 2em;
     }
-    .info {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 15px;
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 0.9em;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
       border-radius: 10px;
-      margin-bottom: 20px;
+      font-size: 1em;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    select:hover {
+      border-color: #667eea;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .results {
+      display: none;
+      margin-top: 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+    }
+
+    .results.show {
+      display: block;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-item {
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-label {
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .result-value {
+      font-size: 1.2em;
+      color: #333;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #667eea;
+      margin-top: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .donation-section {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .donation-section p {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .btn-donate {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎮 Clankermon Evaluator</h1>
-    <div class="info">
-      <p><strong>Welcome!</strong></p>
-      <p>This Frame allows you to evaluate your Clankermon NFTs based on recent trading data.</p>
-      <p>Click the button in Farcaster to start the evaluation!</p>
+    <h1>🎮 Clankermon Valuator</h1>
+    <p class="subtitle">Evaluate your Clankermon based on recent trading data</p>
+
+    <form id="evaluationForm">
+      <div class="form-group">
+        <label for="monsType">Mons Type:</label>
+        <select id="monsType" name="monsType" required>
+            <option value="">-- Select a type --</option>
+            <option value="clanker">Clanker</option>
+            <option value="degenos">Degenos</option>
+            <option value="glanker">Glanker</option>
+            <option value="blonde">Blonde</option>
+            <option value="anon">Anon</option>
+            <option value="opsys">Opsys</option>
+            <option value="runner">Runner</option>
+            <option value="qr">QR</option>
+            <option value="dickbutt">Dickbutt</option>
+            <option value="degen">Degen</option>
+            <option value="fartcoin">Fartcoin</option>
+            <option value="noice">Noice</option>
+            <option value="gdupi">Gdupi</option>
+            <option value="uni">Uni</option>
+            <option value="paradox">Paradox</option>
+            <option value="clankfun">Clankfun</option>
+            <option value="betr">Betr</option>
+            <option value="rock">Rock</option>
+            <option value="drb">Drb</option>
+            <option value="fire">Fire</option>
+            <option value="bracky">Bracky</option>
+            <option value="rachet">Rachet</option>
+            <option value="veil">Veil</option>
+            <option value="native">Native</option>
+            <option value="checkr">Checkr</option>
+            <option value="higher">Higher</option>
+            <option value="based">Based</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="monsLevel">Mons Level:</label>
+        <select id="monsLevel" name="monsLevel" required>
+          <option value="">-- Select a level --</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn">🔍 Evaluate Your Clankermon</button>
+    </form>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Evaluating your Clankermon...</p>
+    </div>
+
+    <div class="results" id="results">
+      <h3 style="color: #667eea; margin-bottom: 15px;">Valuation Results:</h3>
+      <div class="result-item">
+        <div class="result-label">Level-based Valuation:</div>
+        <div class="result-value" id="levelValuation">-</div>
+      </div>
+      <div class="result-item">
+        <div class="result-label">Type-based Valuation:</div>
+        <div class="result-value" id="typeValuation">-</div>
+      </div>
+      <div class="result-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <div class="result-label" style="color: white;">Final Valuation:</div>
+        <div class="result-value" style="color: white;" id="finalValuation">-</div>
+      </div>
+
+      <div class="donation-section">
+        <p>💝 Enjoyed the evaluation? Consider supporting the project!</p>
+        <button class="btn btn-donate" id="donateBtn">Donate 0.23 USDC</button>
+      </div>
     </div>
   </div>
+
+  <script>
+    const form = document.getElementById('evaluationForm');
+    const loading = document.getElementById('loading');
+    const results = document.getElementById('results');
+    const donateBtn = document.getElementById('donateBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const monsType = document.getElementById('monsType').value;
+      const monsLevel = document.getElementById('monsLevel').value;
+
+      if (!monsType || !monsLevel) {
+        alert('Please select both type and level!');
+        return;
+      }
+
+      // Afficher le loading
+      loading.classList.add('show');
+      results.classList.remove('show');
+
+      try {
+        const response = await fetch('/api/evaluate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            level: monsLevel,
+            cm_type: monsType
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Afficher les résultats
+          const levelVal = data.valuations.find(v => v.category === monsLevel);
+          const typeVal = data.valuations.find(v => v.category === monsType);
+          const finalVal = data.valuations.find(v => v.category === '_Final');
+
+          document.getElementById('levelValuation').innerHTML = 
+            `$${levelVal?.usd_valuation || '0.00'} USD<br>Ξ${levelVal?.eth_valuation || '0.000000'} ETH`;
+          
+          document.getElementById('typeValuation').innerHTML = 
+            `$${typeVal?.usd_valuation || '0.00'} USD<br>Ξ${typeVal?.eth_valuation || '0.000000'} ETH`;
+          
+          document.getElementById('finalValuation').innerHTML = 
+            `$${finalVal?.usd_valuation || '0.00'} USD<br>Ξ${finalVal?.eth_valuation || '0.000000'} ETH`;
+
+          loading.classList.remove('show');
+          results.classList.add('show');
+        } else {
+          throw new Error(data.error || 'Evaluation failed');
+        }
+      } catch (error) {
+        loading.classList.remove('show');
+        alert('Error: ' + error.message);
+      }
+    });
+
+    donateBtn.addEventListener('click', () => {
+      // Pour l'instant, on affiche juste une alerte
+      // On intégrera la vraie transaction plus tard
+      alert('Donation feature coming soon! Thank you for your support! 💝');
+    });
+  </script>
 </body>
 </html>

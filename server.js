@@ -11,9 +11,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Route de test
+// Servir les fichiers statiques
+app.use(express.static('frames'));
+
 app.get('/', (req, res) => {
-  res.send('Clankermon Frame API is running! 🎮');
+  res.sendFile(__dirname + '/frames/index.html');
 });
 
 // Route pour exécuter la query Dune
