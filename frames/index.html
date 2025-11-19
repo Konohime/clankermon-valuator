@@ -331,10 +331,17 @@
         const data = await response.json();
 
         if (response.ok) {
+            // DEBUG: voir ce qu'on reçoit
+          console.log('Data received:', data);
+          console.log('Looking for level:', monsLevel, 'type:', monsType);
+          console.log('Valuations:', data.valuations);                        
           // Afficher les résultats
           const levelVal = data.valuations.find(v => v.category === monsLevel || v.category === parseInt(monsLevel));
           const typeVal = data.valuations.find(v => v.category === monsType);
           const finalVal = data.valuations.find(v => v.category === '_Final');
+          console.log('Found levelVal:', levelVal);
+          console.log('Found typeVal:', typeVal);
+          console.log('Found finalVal:', finalVal);
 
           // Si pas de données pour le level, afficher "N/A"
           const levelUSD = levelVal?.USD_valuation || 'N/A';
