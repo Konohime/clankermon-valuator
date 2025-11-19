@@ -89,8 +89,8 @@ app.post('/api/evaluate', async (req, res) => {
       type: cm_type,
       valuations: results.map(row => ({
         category: row.category,
-        usd_valuation: parseFloat(row.usd_valuation || 0).toFixed(2),
-        eth_valuation: parseFloat(row.eth_valuation || 0).toFixed(6)
+        usd_valuation: parseFloat(row.USD_valuation || 0).toFixed(2),
+        eth_valuation: parseFloat(row.ETH_valuation || 0).toFixed(6)
       })),
       donation_address: process.env.DONATION_ADDRESS || null
     };
