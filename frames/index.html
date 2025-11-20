@@ -6,196 +6,272 @@
   <title>Clankermon Valuator</title>
   
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background-image: url('https://ibb.co/HTChs6Bj');
-      background-size: cover;
-      background-position: center;
-      background-blend-mode: overlay;
-    }
-
-    .container {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      max-width: 500px;
-      width: 100%;
-      backdrop-filter: blur(10px);
-    }
-
-    h1 {
-      color: #667eea;
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 2em;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 30px;
-      font-size: 0.9em;
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 600;
-      font-size: 0.95em;
-    }
-
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      font-size: 1em;
-      background-color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    select:hover {
-      border-color: #667eea;
-    }
-
-    select:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      margin-top: 10px;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-    }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    .results {
-      display: none;
-      margin-top: 30px;
-      padding: 20px;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      border-radius: 15px;
-    }
-
-    .results.show {
-      display: block;
-      animation: slideIn 0.5s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      to {
-        opacity: 1;
+
+      body {
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: #0a0a0a;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Background overlay */
+      body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('TON_URL_IMAGE_ICI');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.15;
+        z-index: 0;
+      }
+
+      /* Gradient overlay */
+      body::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 50%),
+                    radial-gradient(ellipse at bottom, rgba(168, 85, 247, 0.1), transparent 50%);
+        z-index: 0;
+      }
+
+      .container {
+        background: rgba(17, 17, 17, 0.95);
+        padding: 40px;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        max-width: 500px;
+        width: 100%;
+        backdrop-filter: blur(20px);
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8),
+                    0 0 0 1px rgba(99, 102, 241, 0.1);
+      }
+
+      h1 {
+        color: #f5f5f5;
+        text-align: center;
+        margin-bottom: 8px;
+        font-size: 1.8em;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #9ca3af;
+        margin-bottom: 35px;
+        font-size: 0.9em;
+        font-weight: 400;
+      }
+
+      .form-group {
+        margin-bottom: 24px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #d1d5db;
+        font-weight: 600;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        background-color: rgba(30, 30, 30, 0.8);
+        color: #f5f5f5;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      select:hover {
+        border-color: rgba(99, 102, 241, 0.6);
+        background-color: rgba(40, 40, 40, 0.9);
+      }
+
+      select:focus {
+        outline: none;
+        border-color: #6366f1;
+        background-color: rgba(40, 40, 40, 0.95);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+      }
+
+      select option {
+        background-color: #1a1a1a;
+        color: #f5f5f5;
+        padding: 12px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        color: white;
+        border: none;
+        font-size: 1em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%);
+      }
+
+      .btn:active {
         transform: translateY(0);
       }
-    }
 
-    .result-item {
-      padding: 15px;
-      background: white;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+      .results {
+        display: none;
+        margin-top: 35px;
+        padding: 0;
+      }
 
-    .result-label {
-      font-weight: 600;
-      color: #667eea;
-      margin-bottom: 5px;
-    }
+      .results.show {
+        display: block;
+        animation: slideIn 0.4s ease;
+      }
 
-    .result-value {
-      font-size: 1.2em;
-      color: #333;
-    }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    .loading {
-      display: none;
-      text-align: center;
-      color: #667eea;
-      margin-top: 20px;
-    }
+      .results h3 {
+        color: #f5f5f5;
+        margin-bottom: 20px;
+        font-size: 1.1em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+      }
 
-    .loading.show {
-      display: block;
-    }
+      .result-item {
+        padding: 18px 20px;
+        background: rgba(30, 30, 30, 0.6);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        margin-bottom: 12px;
+      }
 
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #667eea;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
+      .result-item:last-of-type {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+        border-color: rgba(99, 102, 241, 0.4);
+      }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+      .result-label {
+        font-weight: 600;
+        color: #9ca3af;
+        margin-bottom: 8px;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
 
-    .donation-section {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(102, 126, 234, 0.1);
-      border-radius: 10px;
-      text-align: center;
-    }
+      .result-value {
+        font-size: 1.3em;
+        color: #f5f5f5;
+        font-weight: 700;
+        line-height: 1.6;
+      }
 
-    .donation-section p {
-      margin-bottom: 15px;
-      color: #333;
-    }
+      .result-item:last-of-type .result-label {
+        color: #c4b5fd;
+      }
 
-    .btn-donate {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-  </style>
+      .result-item:last-of-type .result-value {
+        color: #ffffff;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        color: #9ca3af;
+        margin-top: 25px;
+      }
+
+      .loading.show {
+        display: block;
+      }
+
+      .spinner {
+        border: 3px solid rgba(99, 102, 241, 0.1);
+        border-top: 3px solid #6366f1;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin: 20px auto;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .donation-section {
+        margin-top: 25px;
+        padding: 20px;
+        background: rgba(99, 102, 241, 0.08);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        text-align: center;
+      }
+
+      .donation-section p {
+        margin-bottom: 16px;
+        color: #d1d5db;
+        font-size: 0.95em;
+      }
+
+      .btn-donate {
+        background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+        padding: 14px;
+        font-size: 0.95em;
+      }
+
+      .btn-donate:hover {
+        background: linear-gradient(135deg, #db2777 0%, #e11d48 100%);
+        box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+      }
+    </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎮 Clankermon Valuator</h1>
+    <h1>Clankermon Valuator</h1>
     <p class="subtitle">Evaluate your Clankermon based on recent trading data</p>
 
     <form id="evaluationForm">
@@ -265,7 +341,7 @@
         </select>
       </div>
 
-      <button type="submit" class="btn">🔍 Evaluate Your Clankermon</button>
+      <button type="submit" class="btn">Evaluate</button>
     </form>
 
     <div class="loading" id="loading">
@@ -289,8 +365,7 @@
       </div>
 
       <div class="donation-section">
-        <p>💝 Enjoyed the evaluation? Consider supporting the project!</p>
-        <button class="btn btn-donate" id="donateBtn">Donate 0.23 USDC</button>
+        <p>Enjoyed the tool? Feel free to tip me a coffee: konohime.eth :) </p>
       </div>
     </div>
   </div>
