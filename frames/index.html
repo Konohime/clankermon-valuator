@@ -493,30 +493,58 @@
       });
     }
 
-    // Initialisation du SDK Farcaster Mini Apps
-    (function() {
-      // Attendre que le SDK soit chargé
-      const initFarcasterSDK = () => {
-        if (window.sdk) {
-          try {
-            // Signaler que l'app est prête
-            window.sdk.actions.ready();
-            console.log('✅ Farcaster SDK ready');
-          } catch (error) {
-            console.error('❌ Erreur SDK:', error);
-          }
-        } else {
-          console.log('ℹ️ SDK not loaded, retrying...');
-          setTimeout(initFarcasterSDK, 100);
-        }
-      };
+    // Initialisation du SDK Farcaster Mini Apps - Version améliorée
+    (function initializeFarcasterSDK() {
+      let attempts = 0;
+      const maxAttempts = 50;
       
-      // Attendre le chargement de la page
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initFarcasterSDK);
-      } else {
-        initFarcasterSDK();
+      function tryInitSDK() {
+        attempts++;
+        
+        // Essayer window.sdk
+        if (window.sdk && typeof window.sdk.actions !== 'undefined') {
+          try {
+            window.sdk.actions.ready();
+            console.log('✅ Farcaster SDK ready via window.sdk');
+            return true;
+          } catch (error) {
+            console.error('❌ Error calling ready():', error);
+          }
+        }
+        
+        // Essayer d'importer dynamiquement
+        if (attempts === 5) {
+          import('https://unpkg.com/@farcaster/frame-sdk@0.2.0')
+            .then(module => {
+              if (module.sdk && module.sdk.actions) {
+                module.sdk.actions.ready();
+                console.log('✅ Farcaster SDK ready via dynamic import');
+                return true;
+              }
+            })
+            .catch(err => console.log('Dynamic import failed:', err));
+        }
+        
+        // Réessayer
+        if (attempts < maxAttempts) {
+          setTimeout(tryInitSDK, 100);
+        } else {
+          console.log('⚠️ SDK not found after', maxAttempts, 'attempts. App may not be in Farcaster context.');
+        }
+        
+        return false;
       }
+      
+      // Démarrer immédiatement
+      tryInitSDK();
+      
+      // Et aussi au DOMContentLoaded par sécurité
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryInitSDK);
+      }
+      
+      // Et au load complet
+      window.addEventListener('load', tryInitSDK);
     })();
   </script>
 </body>
