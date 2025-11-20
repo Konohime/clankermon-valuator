@@ -16,13 +16,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('frames'));
 
 // Servir un manifest vide temporaire
+// Servir le manifest Farcaster avec account association
 app.get('/.well-known/farcaster.json', (req, res) => {
   res.json({
+    "accountAssociation": {
+      "header": "eyJmaWQiOjIxMzQ4LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4NjA5MzMxZjcyY0IxQjBDYzVFZDg5RDIyMzJDYTg3YjA5NDEzMDUzYSJ9",
+      "payload": "eyJkb21haW4iOiJjbGFua2VybW9uLXZhbHVhdG9yLXByb2R1Y3Rpb24udXAucmFpbHdheS5hcHAifQ",
+      "signature": "QqpS/4EPmILfVIFmlhBHu72qw5fEjfmMmNeQx/FtCmFe2ks9JRCCN94iGj/lMgIRhyadiQckMmrg8SAQwEMp/Bw="
+    },
     "miniapp": {
       "version": "1",
       "name": "Clankermon Valuator",
-      "iconUrl": "https://i.ibb.co/chh5T9Z7/clankermon-logo.png",
-      "homeUrl": "https://clankermon-valuator-production.up.railway.app/"
+      "iconUrl": "https://i.ibb.co/chh5T9Z7/clankermon-analyse.png",
+      "homeUrl": "https://clankermon-valuator-production.up.railway.app/",
+      "subtitle": "NFT Valuation Tool",
+      "description": "Evaluate your Clankermon NFTs based on recent trading data from Dune Analytics",
+      "primaryCategory": "utility",
+      "tags": ["nft", "valuation", "clankermon", "analytics"],
+      "splashImageUrl": "https://i.ibb.co/chh5T9Z7/clankermon-analyse.png",
+      "splashBackgroundColor": "#0a0a0a"
     }
   });
 });
