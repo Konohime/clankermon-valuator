@@ -461,8 +461,17 @@
           const finalETH = finalVal?.eth_valuation || 'N/A';
 
           // Mettre à jour les labels avec les valeurs sélectionnées
-          const levelLabel = document.querySelector('#results .result-item:nth-child(1) .result-label');
-          const typeLabel = document.querySelector('#results .result-item:nth-child(2) .result-label');
+          // On cible précisément le premier et deuxième result-item
+          const resultItems = document.querySelectorAll('#results .result-item');
+          const levelLabel = resultItems[0]?.querySelector('.result-label');
+          const typeLabel = resultItems[1]?.querySelector('.result-label');
+
+          if (levelLabel) {
+            levelLabel.textContent = `Level ${monsLevel} Valuation:`;
+          }
+          if (typeLabel) {
+            typeLabel.textContent = `${monsType.charAt(0).toUpperCase() + monsType.slice(1)} Type Valuation:`;
+          }
 
           if (levelLabel) {
             levelLabel.textContent = `Level ${monsLevel} Valuation:`;
@@ -472,15 +481,23 @@
           }
 
           // Afficher les valeurs
-          document.getElementById('levelValuation').innerHTML = 
-            levelUSD === 'N/A' 
-              ? '<span style="color: #999;">No recent sales for this level</span>' 
-              : `$${parseFloat(levelUSD).toFixed(2)} USD<br>Ξ${parseFloat(levelETH).toFixed(6)} ETH`;
+          // Afficher les valeurs dans le bon ordre
+          const levelValElement = resultItems[0]?.querySelector('.result-value');
+          const typeValElement = resultItems[1]?.querySelector('.result-value');
 
-          document.getElementById('typeValuation').innerHTML = 
-            typeUSD === 'N/A'
-              ? '<span style="color: #999;">No recent sales for this type</span>'
-              : `$${parseFloat(typeUSD).toFixed(2)} USD<br>Ξ${parseFloat(typeETH).toFixed(6)} ETH`;
+          if (levelValElement) {
+            levelValElement.innerHTML = 
+              levelUSD === 'N/A' 
+                ? '<span style="color: #999;">No recent sales for this level</span>' 
+                : `$${parseFloat(levelUSD).toFixed(2)} USD<br>Ξ${parseFloat(levelETH).toFixed(6)} ETH`;
+          }
+
+          if (typeValElement) {
+            typeValElement.innerHTML = 
+              typeUSD === 'N/A'
+                ? '<span style="color: #999;">No recent sales for this type</span>'
+                : `$${parseFloat(typeUSD).toFixed(2)} USD<br>Ξ${parseFloat(typeETH).toFixed(6)} ETH`;
+          }
 
           document.getElementById('finalValuation').innerHTML = 
             finalUSD === 'N/A'
