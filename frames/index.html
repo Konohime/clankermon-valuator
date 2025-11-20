@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Farcaster SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk@0.0.1/dist/bundle.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clankermon Valuator</title>
+  
   <!-- Open Graph / Farcaster Frame Meta Tags -->
   <meta property="og:title" content="Clankermon Valuator" />
   <meta property="og:description" content="Evaluate your Clankermon NFTs based on recent trading data" />
@@ -25,269 +24,262 @@
   <meta property="fc:frame:button:1" content="Launch App" />
   <meta property="fc:frame:button:1:action" content="link" />
   <meta property="fc:frame:button:1:target" content="https://clankermon-valuator-production.up.railway.app/" />
+  
+  <!-- Farcaster Mini Apps SDK -->
+  <script src="https://unpkg.com/@farcaster/frame-sdk@0.2.0"></script>
+  
   <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-        background: #0a0a0a;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 40px 20px;
-        position: relative;
-        overflow-y: auto;
-      }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      position: relative;
+      overflow-y: auto;
+    }
 
-      /* Background overlay */
-      body::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url('https://i.ibb.co/chh5T9Z7/clankermon-analyse.png');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.15;
-        z-index: 0;
-      }
+    /* Background overlay */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://i.ibb.co/chh5T9Z7/clankermon-analyse.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+    }
 
-      /* Gradient overlay */
-      body::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 50%),
-                    radial-gradient(ellipse at bottom, rgba(168, 85, 247, 0.1), transparent 50%);
-        z-index: 0;
-      }
+    /* Gradient overlay */
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 50%),
+                  radial-gradient(ellipse at bottom, rgba(168, 85, 247, 0.1), transparent 50%);
+      z-index: 0;
+    }
 
-      .container {
-        background: rgba(17, 17, 17, 0.95);
-        padding: 40px;
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        max-width: 500px;
-        width: 100%;
-        backdrop-filter: blur(20px);
-        position: relative;
-        z-index: 1;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8),
-                    0 0 0 1px rgba(99, 102, 241, 0.1);
-      }
+    .container {
+      background: rgba(17, 17, 17, 0.95);
+      padding: 40px;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8),
+                  0 0 0 1px rgba(99, 102, 241, 0.1);
+    }
 
-      h1 {
-        color: #f5f5f5;
-        text-align: center;
-        margin-bottom: 8px;
-        font-size: 1.8em;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-      }
+    h1 {
+      color: #f5f5f5;
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 1.8em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
 
-      .subtitle {
-        text-align: center;
-        color: #9ca3af;
-        margin-bottom: 35px;
-        font-size: 0.9em;
-        font-weight: 400;
-      }
+    .subtitle {
+      text-align: center;
+      color: #9ca3af;
+      margin-bottom: 35px;
+      font-size: 0.9em;
+      font-weight: 400;
+    }
 
-      .form-group {
-        margin-bottom: 24px;
-      }
+    .form-group {
+      margin-bottom: 24px;
+    }
 
-      label {
-        display: block;
-        margin-bottom: 10px;
-        color: #d1d5db;
-        font-weight: 600;
-        font-size: 0.9em;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #d1d5db;
+      font-weight: 600;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-      select {
-        width: 100%;
-        padding: 14px 16px;
-        border: 1px solid rgba(99, 102, 241, 0.3);
-        background-color: rgba(30, 30, 30, 0.8);
-        color: #f5f5f5;
-        font-size: 1em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 500;
-      }
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      background-color: rgba(30, 30, 30, 0.8);
+      color: #f5f5f5;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
 
-      select:hover {
-        border-color: rgba(99, 102, 241, 0.6);
-        background-color: rgba(40, 40, 40, 0.9);
-      }
+    select:hover {
+      border-color: rgba(99, 102, 241, 0.6);
+      background-color: rgba(40, 40, 40, 0.9);
+    }
 
-      select:focus {
-        outline: none;
-        border-color: #6366f1;
-        background-color: rgba(40, 40, 40, 0.95);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-      }
+    select:focus {
+      outline: none;
+      border-color: #6366f1;
+      background-color: rgba(40, 40, 40, 0.95);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
 
-      select option {
-        background-color: #1a1a1a;
-        color: #f5f5f5;
-        padding: 12px;
-      }
+    select option {
+      background-color: #1a1a1a;
+      color: #f5f5f5;
+      padding: 12px;
+    }
 
-      .btn {
-        width: 100%;
-        padding: 16px;
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        color: white;
-        border: none;
-        font-size: 1em;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      color: white;
+      border: none;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-        background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%);
-      }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%);
+    }
 
-      .btn:active {
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .results {
+      display: none;
+      margin-top: 35px;
+      padding: 0;
+    }
+
+    .results.show {
+      display: block;
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
         transform: translateY(0);
       }
+    }
 
-      .results {
-        display: none;
-        margin-top: 35px;
-        padding: 0;
-      }
+    .results h3 {
+      color: #f5f5f5;
+      margin-bottom: 20px;
+      font-size: 1.1em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
 
-      .results.show {
-        display: block;
-        animation: slideIn 0.4s ease;
-      }
+    .result-item {
+      padding: 18px 20px;
+      background: rgba(30, 30, 30, 0.6);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      margin-bottom: 12px;
+    }
 
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    .result-item:last-of-type {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
 
-      .results h3 {
-        color: #f5f5f5;
-        margin-bottom: 20px;
-        font-size: 1.1em;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 700;
-      }
+    .result-label {
+      font-weight: 600;
+      color: #9ca3af;
+      margin-bottom: 8px;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-      .result-item {
-        padding: 18px 20px;
-        background: rgba(30, 30, 30, 0.6);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        margin-bottom: 12px;
-      }
+    .result-value {
+      font-size: 1.3em;
+      color: #f5f5f5;
+      font-weight: 700;
+      line-height: 1.6;
+    }
 
-      .result-item:last-of-type {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
-        border-color: rgba(99, 102, 241, 0.4);
-      }
+    .result-item:last-of-type .result-label {
+      color: #c4b5fd;
+    }
 
-      .result-label {
-        font-weight: 600;
-        color: #9ca3af;
-        margin-bottom: 8px;
-        font-size: 0.85em;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
+    .result-item:last-of-type .result-value {
+      color: #ffffff;
+    }
 
-      .result-value {
-        font-size: 1.3em;
-        color: #f5f5f5;
-        font-weight: 700;
-        line-height: 1.6;
-      }
+    .loading {
+      display: none;
+      text-align: center;
+      color: #9ca3af;
+      margin-top: 25px;
+    }
 
-      .result-item:last-of-type .result-label {
-        color: #c4b5fd;
-      }
+    .loading.show {
+      display: block;
+    }
 
-      .result-item:last-of-type .result-value {
-        color: #ffffff;
-      }
+    .spinner {
+      border: 3px solid rgba(99, 102, 241, 0.1);
+      border-top: 3px solid #6366f1;
+      width: 40px;
+      height: 40px;
+      animation: spin 0.8s linear infinite;
+      margin: 20px auto;
+    }
 
-      .loading {
-        display: none;
-        text-align: center;
-        color: #9ca3af;
-        margin-top: 25px;
-      }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-      .loading.show {
-        display: block;
-      }
+    .donation-section {
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      text-align: center;
+    }
 
-      .spinner {
-        border: 3px solid rgba(99, 102, 241, 0.1);
-        border-top: 3px solid #6366f1;
-        width: 40px;
-        height: 40px;
-        animation: spin 0.8s linear infinite;
-        margin: 20px auto;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      .donation-section {
-        margin-top: 25px;
-        padding: 20px;
-        background: rgba(99, 102, 241, 0.08);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        text-align: center;
-      }
-
-      .donation-section p {
-        margin-bottom: 16px;
-        color: #d1d5db;
-        font-size: 0.95em;
-      }
-
-      .btn-donate {
-        background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
-        padding: 14px;
-        font-size: 0.95em;
-      }
-
-      .btn-donate:hover {
-        background: linear-gradient(135deg, #db2777 0%, #e11d48 100%);
-        box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
-      }
-    </style>
+    .donation-section p {
+      margin-bottom: 0;
+      color: #d1d5db;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -298,34 +290,34 @@
       <div class="form-group">
         <label for="monsType">Mons Type:</label>
         <select id="monsType" name="monsType" required>
-            <option value="">-- Select a type --</option>
-            <option value="clanker">Clanker</option>
-            <option value="degenos">Degenos</option>
-            <option value="glanker">Glanker</option>
-            <option value="blonde">Blonde</option>
-            <option value="anon">Anon</option>
-            <option value="opsys">Opsys</option>
-            <option value="runner">Runner</option>
-            <option value="qr">QR</option>
-            <option value="dickbutt">Dickbutt</option>
-            <option value="degen">Degen</option>
-            <option value="fartcoin">Fartcoin</option>
-            <option value="noice">Noice</option>
-            <option value="gdupi">Gdupi</option>
-            <option value="uni">Uni</option>
-            <option value="paradox">Paradox</option>
-            <option value="clankfun">Clankfun</option>
-            <option value="betr">Betr</option>
-            <option value="rock">Rock</option>
-            <option value="drb">Drb</option>
-            <option value="fire">Fire</option>
-            <option value="bracky">Bracky</option>
-            <option value="rachet">Rachet</option>
-            <option value="veil">Veil</option>
-            <option value="native">Native</option>
-            <option value="checkr">Checkr</option>
-            <option value="higher">Higher</option>
-            <option value="based">Based</option>
+          <option value="">-- Select a type --</option>
+          <option value="clanker">Clanker</option>
+          <option value="degenos">Degenos</option>
+          <option value="glanker">Glanker</option>
+          <option value="blonde">Blonde</option>
+          <option value="anon">Anon</option>
+          <option value="opsys">Opsys</option>
+          <option value="runner">Runner</option>
+          <option value="qr">QR</option>
+          <option value="dickbutt">Dickbutt</option>
+          <option value="degen">Degen</option>
+          <option value="fartcoin">Fartcoin</option>
+          <option value="noice">Noice</option>
+          <option value="gdupi">Gdupi</option>
+          <option value="uni">Uni</option>
+          <option value="paradox">Paradox</option>
+          <option value="clankfun">Clankfun</option>
+          <option value="betr">Betr</option>
+          <option value="rock">Rock</option>
+          <option value="drb">Drb</option>
+          <option value="fire">Fire</option>
+          <option value="bracky">Bracky</option>
+          <option value="rachet">Rachet</option>
+          <option value="veil">Veil</option>
+          <option value="native">Native</option>
+          <option value="checkr">Checkr</option>
+          <option value="higher">Higher</option>
+          <option value="based">Based</option>
         </select>
       </div>
 
@@ -370,7 +362,7 @@
     </div>
 
     <div class="results" id="results">
-      <h3 style="color: #667eea; margin-bottom: 15px;">Valuation Results:</h3>
+      <h3>Valuation Results:</h3>
       <div class="result-item">
         <div class="result-label">Level-based Valuation:</div>
         <div class="result-value" id="levelValuation">-</div>
@@ -379,13 +371,17 @@
         <div class="result-label">Type-based Valuation:</div>
         <div class="result-value" id="typeValuation">-</div>
       </div>
-      <div class="result-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-        <div class="result-label" style="color: white;">Final Valuation:</div>
-        <div class="result-value" style="color: white;" id="finalValuation">-</div>
+      <div class="result-item">
+        <div class="result-label">Final Valuation:</div>
+        <div class="result-value" id="finalValuation">-</div>
       </div>
 
+      <button class="btn" id="newEvaluationBtn" style="margin-top: 20px; background: linear-gradient(135deg, #374151 0%, #1f2937 100%);">
+        New Evaluation
+      </button>
+
       <div class="donation-section">
-        <p>Enjoyed the tool? Feel free to tip me a coffee: konohime.eth :) </p>
+        <p>Enjoyed the tool? Feel free to tip me a coffee: konohime.eth :)</p>
       </div>
     </div>
   </div>
@@ -394,7 +390,7 @@
     const form = document.getElementById('evaluationForm');
     const loading = document.getElementById('loading');
     const results = document.getElementById('results');
-    const donateBtn = document.getElementById('donateBtn');
+    const newEvaluationBtn = document.getElementById('newEvaluationBtn');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -426,19 +422,21 @@
         const data = await response.json();
 
         if (response.ok) {
-            // DEBUG: voir ce qu'on reçoit
+          // DEBUG: voir ce qu'on reçoit
           console.log('Data received:', data);
           console.log('Looking for level:', monsLevel, 'type:', monsType);
-          console.log('Valuations:', data.valuations);                        
+          console.log('Valuations:', data.valuations);
+          
           // Afficher les résultats
           const levelVal = data.valuations.find(v => v.category === monsLevel || v.category === parseInt(monsLevel));
           const typeVal = data.valuations.find(v => v.category === monsType);
           const finalVal = data.valuations.find(v => v.category === '_Final');
+          
           console.log('Found levelVal:', levelVal);
           console.log('Found typeVal:', typeVal);
           console.log('Found finalVal:', finalVal);
 
-          // Si pas de données pour le level, afficher "N/A"
+          // Récupérer les valeurs
           const levelUSD = levelVal?.usd_valuation || 'N/A';
           const levelETH = levelVal?.eth_valuation || 'N/A';
           const typeUSD = typeVal?.usd_valuation || 'N/A';
@@ -447,11 +445,15 @@
           const finalETH = finalVal?.eth_valuation || 'N/A';
 
           // Mettre à jour les labels avec les valeurs sélectionnées
-          document.querySelector('#results .result-item:nth-child(1) .result-label').textContent = 
-            `Level ${monsLevel} Valuation:`;
+          const levelLabel = document.querySelector('#results .result-item:nth-child(1) .result-label');
+          const typeLabel = document.querySelector('#results .result-item:nth-child(2) .result-label');
 
-          document.querySelector('#results .result-item:nth-child(2) .result-label').textContent = 
-            `${monsType.charAt(0).toUpperCase() + monsType.slice(1)} Type Valuation:`;
+          if (levelLabel) {
+            levelLabel.textContent = `Level ${monsLevel} Valuation:`;
+          }
+          if (typeLabel) {
+            typeLabel.textContent = `${monsType.charAt(0).toUpperCase() + monsType.slice(1)} Type Valuation:`;
+          }
 
           // Afficher les valeurs
           document.getElementById('levelValuation').innerHTML = 
@@ -480,16 +482,42 @@
       }
     });
 
-    donateBtn.addEventListener('click', () => {
-      // Pour l'instant, on affiche juste une alerte
-      // On intégrera la vraie transaction plus tard
-      alert('Donation feature coming soon! Thank you for your support! 💝');
-    });
-  // Initialiser le SDK Farcaster
-  if (window.farcasterFrame) {
-    window.farcasterFrame.sdk.actions.ready();
-    console.log('Farcaster SDK ready!');
-}
+    // Bouton nouvelle évaluation
+    if (newEvaluationBtn) {
+      newEvaluationBtn.addEventListener('click', () => {
+        // Cacher les résultats
+        results.classList.remove('show');
+        
+        // Scroller vers le haut
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // Initialisation du SDK Farcaster Mini Apps
+    (function() {
+      // Attendre que le SDK soit chargé
+      const initFarcasterSDK = () => {
+        if (window.sdk) {
+          try {
+            // Signaler que l'app est prête
+            window.sdk.actions.ready();
+            console.log('✅ Farcaster SDK ready');
+          } catch (error) {
+            console.error('❌ Erreur SDK:', error);
+          }
+        } else {
+          console.log('ℹ️ SDK not loaded, retrying...');
+          setTimeout(initFarcasterSDK, 100);
+        }
+      };
+      
+      // Attendre le chargement de la page
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFarcasterSDK);
+      } else {
+        initFarcasterSDK();
+      }
+    })();
   </script>
 </body>
 </html>
