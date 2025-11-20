@@ -12,8 +12,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Servir les fichiers statiques
+// Servir les fichiers statiques
 app.use(express.static('frames'));
 
+// Servir un manifest vide temporaire
+app.get('/.well-known/farcaster.json', (req, res) => {
+  res.json({
+    "miniapp": {
+      "version": "1",
+      "name": "Clankermon Valuator",
+      "iconUrl": "https://i.ibb.co/chh5T9Z7/clankermon-logo.png",
+      "homeUrl": "https://clankermon-valuator-production.up.railway.app/"
+    }
+  });
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/frames/index.html');
+});
 // Redirection pour le manifest Farcaster
 app.get('/.well-known/farcaster.json', (req, res) => {
   res.redirect(307, 'https://api.farcaster.xyz/miniapps/hosted-manifest/019aa176-ead6-a8ba-036a-939ee4741ab5');
