@@ -14,6 +14,15 @@ app.use(express.urlencoded({ extended: true }));
 // Servir les fichiers statiques
 app.use(express.static('frames'));
 
+// Redirection pour le manifest Farcaster
+app.get('/.well-known/farcaster.json', (req, res) => {
+  res.redirect(307, 'https://api.farcaster.xyz/miniapps/hosted-manifest/019aa176-ead6-a8ba-036a-939ee4741ab5');
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/frames/index.html');
+});
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/frames/index.html');
 });
