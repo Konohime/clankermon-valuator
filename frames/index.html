@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Farcaster SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk@0.0.1/dist/bundle.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -444,6 +446,14 @@
           const finalUSD = finalVal?.usd_valuation || 'N/A';
           const finalETH = finalVal?.eth_valuation || 'N/A';
 
+          // Mettre à jour les labels avec les valeurs sélectionnées
+          document.querySelector('#results .result-item:nth-child(1) .result-label').textContent = 
+            `Level ${monsLevel} Valuation:`;
+
+          document.querySelector('#results .result-item:nth-child(2) .result-label').textContent = 
+            `${monsType.charAt(0).toUpperCase() + monsType.slice(1)} Type Valuation:`;
+
+          // Afficher les valeurs
           document.getElementById('levelValuation').innerHTML = 
             levelUSD === 'N/A' 
               ? '<span style="color: #999;">No recent sales for this level</span>' 
@@ -475,6 +485,11 @@
       // On intégrera la vraie transaction plus tard
       alert('Donation feature coming soon! Thank you for your support! 💝');
     });
+  // Initialiser le SDK Farcaster
+  if (window.farcasterFrame) {
+    window.farcasterFrame.sdk.actions.ready();
+    console.log('Farcaster SDK ready!');
+}
   </script>
 </body>
 </html>
